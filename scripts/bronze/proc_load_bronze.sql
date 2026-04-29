@@ -10,6 +10,14 @@ Objetivo del Script:
 		- 'Vacia' (Trunca) las tablas del schema bronze antes de cargar los datos.
 		- Usa la función 'COPY' para insertar los datos desde los archivos csv a las tablas del schema bronze. 
 
+Parámetros:
+	Ninguno. 
+	Este stored procedure no acepta ningún parámetro ni devuelve ningún valor.
+
+Ejemplo:
+	CALL bronze.load_bronze;
+
+------------------------------------------------------------------------------------------------------------------
 IMPORTANTE:
 	Los archivos deben estar en una carpeta accesible por PostgreSQL
 	Ejemplo recomendado: C:/temp/
