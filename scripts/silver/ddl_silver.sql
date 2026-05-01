@@ -7,7 +7,7 @@ Objetivo del Script:
 
 	Este script crea las tablas en el schema 'silver',
 	borra las tablas existentes.
-	Ejecuta este script para re-definir la estructura DDL de las tablas 'silver'
+	Ejecuta este script para re-definir la estructura DDL de las tablas 'bronze'
 ===================================================================================
 */
 
