@@ -40,8 +40,9 @@ Características Técnicas:
 
 Notas:
     - Este procedimiento depende de que las tablas del schema 'bronze' ya estén cargadas previamente.
-    - Diseñado para ejecutarse desde pgAdmin o mediante:
-          CALL silver.load_silver();
+
+Ejemplo de uso:
+	CALL silver.load_silver();
 
 Autor:
     Alicia Gil Matute
