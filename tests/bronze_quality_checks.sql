@@ -1,6 +1,57 @@
 /*
-TABLA cust_info
+======================================================================================================
+                                    QUALITY CHECKS — CAPA BRONZE
+======================================================================================================
+
+Objetivo general:
+    Este script realiza controles de calidad sobre las tablas de la capa 'bronze' para detectar,
+    documentar y preparar la corrección de inconsistencias antes de cargar los datos transformados
+    en la capa 'silver'.
+
+Principales validaciones:
+    1. Integridad de claves primarias:
+        - Detección de valores NULL.
+        - Detección de registros duplicados.
+
+    2. Calidad de campos de texto:
+        - Identificación de espacios en blanco no deseados (leading/trailing spaces).
+        - Revisión de valores inconsistentes o no estandarizados.
+        - Normalización de categorías (ej.: género, estado civil, líneas de producto).
+
+    3. Calidad de datos numéricos:
+        - Identificación de NULLs.
+        - Validación de valores negativos o cero cuando no son permitidos.
+        - Verificación de reglas de negocio (ej.: Sales = Quantity * Price).
+
+    4. Validación temporal:
+        - Revisión de fechas inválidas o fuera de rango.
+        - Comprobación de secuencia lógica entre fechas
+          (ej.: order_date <= ship_date <= due_date).
+
+    5. Integridad referencial:
+        - Validación de correspondencia entre claves relacionadas
+          (clientes, productos, ventas, ERP).
+
+    6. Preparación para transformación:
+        - Identificación de ajustes necesarios (TRIM, NULLIF, COALESCE, CASE, LEAD, etc.)
+          para limpieza y posterior carga en la capa 'silver'.
+
+Notas importantes:
+    - Este script NO solo detecta errores, también orienta sobre posibles soluciones.
+    - Toda discrepancia encontrada debe investigarse antes de aplicar transformaciones definitivas.
+    - Las correcciones implementadas deben preservar la lógica de negocio y la trazabilidad del dato.
+    - Se recomienda ejecutar estas validaciones de forma periódica como parte del pipeline ETL/ELT.
+
+Resultado esperado:
+    Obtener datasets limpios, consistentes y listos para su estandarización en la capa 'silver'.
+
+======================================================================================================
 */
+
+
+-- ======================================================================================================
+-- 									TABLA: bronze.crm_cust_info
+-- ======================================================================================================
 
 SELECT
 	*
@@ -45,9 +96,9 @@ FROM bronze.crm_cust_info;
 
 
 
-/*
-Tabla prd_info
-*/
+-- ======================================================================================================
+-- 									TABLA: bronze.crm_prd_info
+-- ======================================================================================================
 
 
 SELECT
@@ -115,11 +166,9 @@ FROM bronze.crm_prd_info
 WHERE prd_key IN ('AC-HE-HL-U509-R','AC-HE-HL-U509');
 
 
-/* 
-
-TABLA: crm_sales_details
-
-*/
+-- ======================================================================================================
+-- 									TABLA: bronze.crm_sales_details
+-- ======================================================================================================
 
 -- Revisamos que no haya espacios indeseados
 SELECT 
@@ -285,9 +334,9 @@ OR sls_sales <=0 OR sls_quantity <=0 OR sls_price <=0
 ORDER BY sls_sales, sls_quantity, sls_price ASC;
 
 
-/*
-TABLA: erp_cust_az12
-*/
+-- ======================================================================================================
+-- 									TABLA: bronze.erp_cust_az12
+-- ======================================================================================================
 
 SELECT
 	cid,
@@ -333,9 +382,9 @@ FROM bronze.erp_cust_az12;
 
 
 
-/*
-TABLA: erp_loc_a101
-*/
+-- ======================================================================================================
+-- 									TABLA: bronze.erp_loca101
+-- ======================================================================================================
 
 SELECT
 	cid,
@@ -370,9 +419,9 @@ ORDER BY cntry;
 
 
 
-/*
-TABLA: erp_px_cat_g1v2
-*/
+-- ======================================================================================================
+-- 									TABLA: bronze.erp_px_cat_g1v2
+-- ======================================================================================================
 
 SELECT
 	id,
@@ -417,4 +466,5 @@ SELECT DISTINCT
 FROM bronze.erp_px_cat_g1v2;
 
 -- ESTA TABLA TIENE DATOS DE BUENA CALIDAD Y NO HAY QUE LIMPIAR NADA
+
 
